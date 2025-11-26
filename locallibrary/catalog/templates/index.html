@@ -17,4 +17,8 @@
         <li><strong>Жанры:</strong> {{ num_genres }}</li>
         <li><strong>Сколько слов с книгой "Джин":</strong> {{ num_djin }}</li>
     </ul>
+
+    <p>
+        You have visited this page {{ num_visits }} time {{ num_visits|pluralize }}
+    </p>
 {% endblock %}
