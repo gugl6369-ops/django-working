@@ -1,6 +1,13 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
+from django.conf import settings
+from datetime import date
 import uuid
+
+# class User(AbstractUser):
+#     pass
+
 
 class Genre(models.Model):
 
@@ -33,6 +40,10 @@ class BookInstance(models.Model):
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
 
+    borrower = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                 on_delete=models.SET_NULL,
+                                 null=True, blank=True)
+
     LOAN_STATUS = (
         ('m', 'Maintenance'),
         ('o', 'On loan'),
@@ -43,10 +54,15 @@ class BookInstance(models.Model):
 
     class Meta:
         ordering = ['due_back']
+        permissions = (("can_mark_returned", "Set book as returned"),)
+
 
     def __str__(self):
         return 'Книга: %s, Статус: %s, Вернули: %s, (%s)' % (self.book.title, self.status, self.due_back, self.id, )
 
+    def is_overdue(self):
+        return bool(self.due_back and date.today() > self.due_back
+                    )
 
 
 class Author(models.Model):
