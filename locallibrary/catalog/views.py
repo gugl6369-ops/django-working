@@ -29,3 +29,12 @@ class BookListView(generic.ListView):
 
 class BookDetailView(generic.DetailView):
     model = Book
+
+class AuthorListView(generic.ListView):
+    model = Author
+    context_object_name = 'author_list'
+    template_name = 'author_list.html'
+
+class AuthorDetailView(generic.DetailView):
+    context_object_name_book = 'book_list'
+    model = Author

@@ -13,12 +13,12 @@
         <h4>Copies</h4>
 
         {% for copy in book.bookinstance_set.all %}
-            <hr />
+            <hr/>
             <p
             class="{% if copy.status == 'a' %} text-success
-                        {% elif copy.status == 'm' %}"text-danger
+                        {% elif copy.status == 'm' %} text-danger
                         {% else %} text-warning
-                {% endif %}>
+                {% endif %}">
                 {{ copy.get_status_display }}
             </p>
             {% if copy.get_status != 'a' %}
