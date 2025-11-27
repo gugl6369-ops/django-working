@@ -1,6 +1,22 @@
 {%  extends "base_generic.html" %}
 
 {% block content %}
+
+     {% block content1 %}
+        {{ block.super }}
+        {% if perms.catalog.change_book or perms.catslog.delete_book %}
+            <hr>
+            <ul class="sidebar-nav">
+                {% if perms.catalog.change_book %}
+                    <li><a href="{% url 'book-update' book.id %}">Update book</a></li>
+                {% endif %}
+                {% if not book.bookinstances_set.all and perm.catalog.delete.book %}
+                    <li><a href="{% url 'book-delete' book.id %}">Delete book</a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    {% endblock %}
+
     <h1>Title: {{ book.title }}</h1>
 
     <p><strong>Author: </strong> <a href="">{{ book.author }}</a></p>
