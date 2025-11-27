@@ -4,6 +4,7 @@ from django.views import generic
 from django.shortcuts import render
 from .models import Book, Author, BookInstance,Genre
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 def index(request):
     num_books = Book.objects.all().count()
@@ -58,4 +59,17 @@ class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
             BookInstance.objects.filter(borrower=self.request.user)
             .filter(status__exact='o')
             .order_by('due_back')
+        )
+
+
+class AllBooksByUserListView(PermissionRequiredMixin, generic.ListView):
+    model = BookInstance
+    template_name = 'catalog/bookinstance_list_all.html'
+    paginate_by = 10
+
+    print(BookInstance.objects.all())
+
+    def get_queryset(self):
+        return (
+            BookInstance.objects.order_by('due_back')
         )

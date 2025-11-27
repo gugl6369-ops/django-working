@@ -61,8 +61,7 @@ class BookInstance(models.Model):
         return 'Книга: %s, Статус: %s, Вернули: %s, (%s)' % (self.book.title, self.status, self.due_back, self.id, )
 
     def is_overdue(self):
-        return bool(self.due_back and date.today() > self.due_back
-                    )
+        return bool(self.due_back and date.today() > self.due_back)
 
 
 class Author(models.Model):
