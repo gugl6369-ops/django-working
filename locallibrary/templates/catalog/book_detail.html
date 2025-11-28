@@ -10,7 +10,7 @@
                 {% if perms.catalog.change_book %}
                     <li><a href="{% url 'book-update' book.id %}">Update book</a></li>
                 {% endif %}
-                {% if not book.bookinstances_set.all and perm.catalog.delete.book %}
+                {% if not book.bookinstances_set.all and perms.catalog.delete_book %}
                     <li><a href="{% url 'book-delete' book.id %}">Delete book</a></li>
                 {% endif %}
             </ul>
