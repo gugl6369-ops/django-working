@@ -101,10 +101,10 @@ def renewBookLibrarian (request, pk):
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
         form = RenewBookForm(initial={'renewal_date': proposed_renewal_date})
 
-        context = {
-            'form': form,
-            'book_instance': book_instance,
-        }
+    context = {
+        'form': form,
+        'book_instance': book_instance,
+    }
     return render(request, 'catalog/book_renew_librarian.html', context)
 
 class AuthorCreate(PermissionRequiredMixin, CreateView):

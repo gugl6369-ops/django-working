@@ -13,8 +13,9 @@
                         {{ bookinst.book.title }}
                     </a>
                     ({{ bookinst.due_back }})
+                        <a href="{% url 'renew-book-librarian'  bookinst.id %}"> update date back</a>
                     </p>
-                <a href="{% url 'renew-book-librarian' %}"> update date back</a>
+                
                 </li>
             {% endfor %}
         </ul>
