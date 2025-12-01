@@ -1,5 +1,65 @@
 .header{
     display: flex;
+    position: fixed;
+    flex-direction: column;
     height: 100%;
-    max-width: 100px;
+    max-width: 50px;
+    align-items: center;
+    background-color: rgba(244, 244, 244, 0.6);
+    padding: 20px;
+    max-height: 35px;
+    overflow: hidden;
+    transition: 0.5s;
+    border-radius: 10px;
+}
+.header_logo{
+    width: 35px;
+    height: 35px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.header:hover {
+    max-height: 100vh;
+    max-width: 200px;
+     transition: 1s;
+    border-radius: 16px;
+}
+
+.header_logo:hover{
+    width: 60px;
+    height: 60px;
+    transform: rotateZ(360deg);
+    transition: 0.5s;
+}
+
+.nav{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.nav_text{
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    background: linear-gradient(black, black) no-repeat;
+    background-size: 0 1px;
+    background-position: 0 1em;
+    transition: 0.3s;
+}
+.nav_text:hover{
+    background-size: 100% 1px;
+    transition: 0.3s;
+}
+
+.main{
+    display: flex;
+    padding-top: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper{
+    max-width: 1920px;
 }

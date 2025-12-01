@@ -12,15 +12,18 @@
     </head>
 <body>
     <header class="header">
-    {% block sidebar %}
-            <img src="{% static 'img/logo.png' %}">
-            <p>Мои заявки</p>
-            <p>,Статус пользователя,</p>
-            <p>Главная страница</p>
-            <p>Регистрация</p>
-            <p>Вход</p>
-            {% endblock %}
+            <a href="{% url 'index' %}"><img class="header_logo" src="{% static 'img/logo.png' %}"></a>
+        <div class="nav">
+            <p class="nav_text">Статус</p>
+            <p class="nav_text">Главная страница</p>
+            <p class="nav_text">Мои заявки</p>
+            <p class="nav_text">Регистрация</p>
+            <a href="{% url 'login' %}?next={{ request.path }}"><p class="nav_text" >Вход</p></a>
+        </div>
     </header>
-    {% block content %}{% endblock %}
+    <main class="main wrapper">
+        {% block content %}{% endblock %}
+    </main>
+
 </body>
 </html>
