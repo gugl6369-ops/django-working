@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        {% block title %}<title>Design.pro</title>{% endblock %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load static %}
+        <link
+            rel="stylesheet"
+            href="{% static 'css/style.css' %}"
+        />
+    </head>
+<body>
+    <header class="header">
+    {% block sidebar %}
+            <img src="{% static 'img/logo.png' %}">
+            <p>Мои заявки</p>
+            <p>,Статус пользователя,</p>
+            <p>Главная страница</p>
+            <p>Регистрация</p>
+            <p>Вход</p>
+            {% endblock %}
+    </header>
+    {% block content %}{% endblock %}
+</body>
+</html>
