@@ -8,8 +8,6 @@ class Consumer(AbstractUser):
     first_name = models.CharField(help_text="Введите свое имя") #только кириллические буквы, дефис и пробелы;
     last_name = models.CharField(help_text="Введите свою фамилию")
     patronymic = models.CharField(help_text="Введите свое отчество")
-    login = models.CharField(help_text="Придумайте логин") #только латиница и дефис, уникальный;
-    email = models.CharField(help_text="Введите почту") #валидный формат email-адрес;
 
 
 
@@ -23,6 +21,7 @@ class Category(models.Model):
 
 class Application(models.Model):
     name = models.CharField(help_text='Название заявки', max_length=255)
+    author = models.ForeignKey(Consumer, on_delete=models.SET_NULL, null=True)
     description = models.TextField(help_text='Описание заявки')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, help_text='Выберете категорию заявки')
     photo = models.ImageField(help_text='Прикрепите фотографию', upload_to='photos/')

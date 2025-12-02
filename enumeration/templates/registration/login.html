@@ -3,17 +3,18 @@
 {% block content %}
     <div class="account">
         <h1 class="account_title">Вход</h1>
-        <form method="post" class="form" action="{% url 'login' %}">
+        <form method="post" class="form">
             {% csrf_token %}
             <div class="form_block">
                 {% for input in form %}
                 <label class="form_label">
                    {{ input.label }}:
                    {{ input }}
+                     {{ input.errors }}
                 </label>
                 {% endfor %}
             </div>
-            <button class="form_btn" type="submit" value="{% url 'login' %}">Отправить форму</button>
+            <button class="form_btn" type="submit"">Отправить форму</button>
         </form>
     </div>
 {% endblock %}

@@ -10,13 +10,13 @@ from .models import Consumer
 class RegistrationForm(UserCreationForm):
     class Meta:
         model = Consumer
-        fields =['first_name', 'last_name', 'email', 'login']
+        fields =['first_name', 'last_name', 'email', 'username']
         labels = {
             'first_name': 'Имя',
             'last_name': 'Фамилия',
             'patronymic': 'Отчество',
-            'login': 'Логин',
             'email': 'Почта',
+            'username': 'Логин',
         }
     # def validate_login(self, user):
 

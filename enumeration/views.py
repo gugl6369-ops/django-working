@@ -20,7 +20,7 @@ def consumer_login(request):
         form =  RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('application_list'))
+            return HttpResponseRedirect(reverse('index'))
     else:
         form = RegistrationForm()
 
