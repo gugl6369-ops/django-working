@@ -14,11 +14,21 @@
     <header class="header">
             <a href="{% url 'index' %}"><img class="header_logo" src="{% static 'img/logo.png' %}"></a>
         <div class="nav">
-            <p class="nav_text">Статус</p>
-            <p class="nav_text">Главная страница</p>
-            <p class="nav_text">Мои заявки</p>
-            <a href="{% url 'registration' %}"><p class="nav_text">Регистрация</p></a>
-            <a href="{% url 'login' %}"><p class="nav_text" >Вход</p></a>
+            {% if user.is_authenticated %}
+                <div class="nav_content">
+                    <p class="nav_name">{{ user.get_username }}</p>
+                    <p class="nav_text">Мои заявки</p>
+                </div>
+                <div class="nav_footer">
+                    <form id="logout-form" method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit"><img class="nav_exit-img" src="{% static 'img/logout.png' %}"  /></button>
+                    </form>
+                </div>
+            {% else %}
+                <a href="{% url 'registration' %}"><p class="nav_text">Регистрация</p></a>
+                <a href="{% url 'login' %}"><p class="nav_text">Вход</p></a>
+            {% endif %}
         </div>
     </header>
     <main class="main wrapper">
