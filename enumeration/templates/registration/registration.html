@@ -1,8 +1,8 @@
 {% extends "../base_generic.html" %}
 
 {% block content %}
-    <div class="account">
-        <h1 class="account_title">Вход</h1>
+    <div class="account" >
+        <h1 class="account_title" >Регистрация</h1>
         <form method="post" class="form" action="{% url 'login' %}">
             {% csrf_token %}
             <div class="form_block">
@@ -13,6 +13,10 @@
                 </label>
                 {% endfor %}
             </div>
+            <label class="form_checkbox-label">
+                <input class="form_checkbox-input" type="checkbox">
+                Согласие на обработку персональных данных.
+            </label>
             <button class="form_btn" type="submit" value="{% url 'login' %}">Отправить форму</button>
         </form>
     </div>

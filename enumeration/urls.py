@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     re_path(r'^$', views.index,  name='index'),
-    re_path(r'^application/$', views.ApplicationList.as_view(), name='application')
+    re_path(r'^application/$', views.ApplicationList.as_view(), name='application_list'),
+    re_path(r'^registration/$', views.consumer_login, name='registration')
 ]
 
