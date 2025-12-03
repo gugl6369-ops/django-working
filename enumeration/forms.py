@@ -18,7 +18,7 @@ class RegistrationForm(UserCreationForm):
             'email': 'Почта',
             'username': 'Логин',
         }
-    # def validate_login(self, user):
+    #def validate_login(self, user):
 
 
 

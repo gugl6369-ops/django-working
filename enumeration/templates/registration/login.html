@@ -8,9 +8,11 @@
             <div class="form_block">
                 {% for input in form %}
                 <label class="form_label">
-                   {{ input.label }}:
-                   {{ input }}
-                    {{ input.errors }}
+                    {{ input.label }}:
+                    {{ input }}
+                    {% if input.errors %}
+                        {{ input.errors }}
+                    {% endif %}
                 </label>
                 {% endfor %}
             </div>

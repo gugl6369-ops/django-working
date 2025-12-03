@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     re_path(r'^$', views.index,  name='index'),
     re_path(r'^application/$', views.ApplicationList.as_view(), name='application_list'),
+    re_path(r'^my-applications/$', views.MyApplicationList.as_view(), name='my_applications'),
     re_path(r'^registration/$', views.consumer_login, name='registration')
 ]
 

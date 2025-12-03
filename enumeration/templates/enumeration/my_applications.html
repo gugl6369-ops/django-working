@@ -1,28 +1,34 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Главная страница</h1>
+
     <div class="main_catalog">
-    {% if cards  %}
-            {% for card in cards  %}
+        {% if my_application  %}
+            {% for card in my_application  %}
             <article class="card">
                 <div class="card_header">
                     <img class="card_img" src="{{card.photo.url}}" alt=" фото {{ card.name }}" >
                     <div class="card_category">
                         <p>{{ card.category }}</p>
                     </div>
+                    <div class="card_del" >
+                        {% load static %}
+                        <button class="card_del-btn">
+                            <img class="card_del-img" src="{% static 'img/clear.png' %}" />
+                        </button>
+                    </div>
                     <div class="card_red" >
                         {% load static %}
                         <button class="card_red-btm">
                             {% load static %}
                             <p class="card_red-text"> {{ card.get_status_display }} </p>
+                            <img class="card_red-img" src="{% static 'img/pen.png' %}">
                         </button>
                     </div>
                 </div>
                     <div class="card_content">
                         <div class="card_content-header">
                             <p class="card_content-title">{{card.name}}</p>
-                            <p>{{ card.date }}</p>
                             <p class="card_content-name">{{card.author}}</p>
                         </div>
                         <p class="card_content-text">{{ card.description  }}</p>
@@ -32,5 +38,5 @@
         {% else %}
             <p>sdsadsa</p>
         {% endif %}
-        </div>
+    </div>
 {% endblock %}
