@@ -181,6 +181,7 @@
     color: #ffffff;
 }
 .main_catalog{
+    background-color: white;
     display: grid;
     gap: 100px;
     grid-template-columns: repeat(4, 1fr);

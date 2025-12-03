@@ -1,3 +1,4 @@
+import re
 from cProfile import label
 
 from django import forms
@@ -18,8 +19,12 @@ class RegistrationForm(UserCreationForm):
             'email': 'Почта',
             'username': 'Логин',
         }
-    #def validate_login(self, user):
-
+    def clean_first_name(self):
+        reg = re.compile(r'[A-яЁё\-\s]+')
+        data = self.cleaned_data['first_name']
+        if not re.fullmatch(reg, data):
+            raise ValidationError(f'нельзя тут {data},  только кириллические буквы, дефис и пробелы')
+        return data
 
 
 
