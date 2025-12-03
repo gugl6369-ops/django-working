@@ -22,12 +22,14 @@
                 <div class="nav_footer">
                     <form id="logout-form" method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit"><img class="nav_exit-img" src="{% static 'img/logout.png' %}"  /></button>
+                        <button class="nav_btn" type="submit"><img class="nav_exit-img" src="{% static 'img/logout.png' %}"  /></button>
                     </form>
                 </div>
             {% else %}
+            <div class="nav_content">
                 <a href="{% url 'registration' %}"><p class="nav_text">Регистрация</p></a>
                 <a href="{% url 'login' %}"><p class="nav_text">Вход</p></a>
+            </div>
             {% endif %}
         </div>
     </header>

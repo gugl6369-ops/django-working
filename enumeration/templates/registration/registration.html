@@ -10,7 +10,9 @@
                 <label class="form_label">
                    {{ input.label }}:
                    {{ input }}
-                    {{ input.errors }}
+                    <div class="form_error-block">
+                        <p class="form_error-title">  {{ input.errors }}</p>
+                    </div>
                 </label>
                 {% endfor %}
             </div>
