@@ -1,5 +1,9 @@
 import re
 from cProfile import label
+from lib2to3.fixer_util import String
+from re import fullmatch
+
+from PIL import Image
 from django.core.validators import validate_email
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -18,6 +22,17 @@ class ApplicationForm(forms.ModelForm):
             'category': 'Категория',
             'photo': 'Фото',
         }
+
+    def clean_photo(self):
+        data = self.files['photo']
+        file_size = data.size
+        file = data.name
+        allowed_extensions = ['jpg', 'jpeg', 'png', 'bmp']
+        if not(file.split('.')[-1] in allowed_extensions):
+            raise ValidationError(f'Не то расширение изображения, возможны только: {allowed_extensions}')
+        if file_size > 2 * 1024 * 1024:
+            raise ValidationError(f'Изображение весит {data.size/1024/1024}MB, а максимальный размер 2MБ ')
+        return data
 
 
 class RegistrationForm(UserCreationForm):

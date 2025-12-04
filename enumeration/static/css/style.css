@@ -62,6 +62,7 @@
 .nav_text{
     text-decoration: none;
     cursor: pointer;
+    color: #191919;
     white-space: nowrap;
     background: linear-gradient(black, black) no-repeat;
     background-size: 0 1px;

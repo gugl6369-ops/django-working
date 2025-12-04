@@ -38,39 +38,62 @@ def consumer_login(request):
     return render(request, 'registration/registration.html', context)
 
 
-
 class MyApplicationList(LoginRequiredMixin, generic.ListView):
     model = Application # application_list.html
     template_name = 'enumeration/my_applications.html'
     context_object_name = 'my_application'
-    check = 0
+    check = [False, False, False]
     filter = 0
 
-
-    #paginate_by = 10
     def get_queryset(self):
-        if 'new' in self.request.GET and not(self.check == 1):
-            self.check = 1
-            self.filter = Application.objects.filter(author=self.request.user, status='n').order_by('name')
 
-        elif 'progress' in self.request.GET and self.check != 2:
-            self.check = 2
-            self.filter = Application.objects.filter(author=self.request.user, status='a').order_by('name')
+        if 'new' in self.request.GET and self.check[0] == False:
+            self.check[0] = True
+            self.check[1] = False
+            self.check[2] = False
 
-        elif 'done' in self.request.GET and self.check != 3:
-            self.check = 3
-            self.filter = Application.objects.filter(author=self.request.user, status='d').order_by('name')
+            return ({
+                'check0': self.check[0],
+                'check1': self.check[1],
+                'check2': self.check[2],
+                'application': Application.objects.filter(author=self.request.user, status='n').order_by('name')
+            })
 
+        if 'progress' in self.request.GET and self.check[1] == False:
+            self.check[1] = True
+            self.check[0] = False
+            self.check[2] = False
 
+            return ({
+                'check0': self.check[0],
+                'check1': self.check[1],
+                'check2': self.check[2],
+                'application': Application.objects.filter(author=self.request.user, status='a').order_by('name')
+
+            })
+
+        if 'done' in self.request.GET and self.check[2] == False:
+            self.check[2] = True
+            self.check[0] = False
+            self.check[1] = False
+
+            return ({
+                'check0': self.check[0],
+                'check1': self.check[1],
+                'check2': self.check[2],
+                'application': Application.objects.filter(author=self.request.user, status='d').order_by('name')
+            })
         else:
-            self.check = 0
-            self.filter = Application.objects.filter(author=self.request.user).order_by('name')
+            self.check[0] = False
+            self.check[1] = False
+            self.check[2] = False
 
-        return ({
-            'check' : self.check,
-            'application': self.filter
-        })
-
+            return ({
+                'check0': self.check[0],
+                'check1': self.check[1],
+                'check2': self.check[2],
+                'application': Application.objects.filter(author=self.request.user).order_by('name')
+            })
 
 
 
