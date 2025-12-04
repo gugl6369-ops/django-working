@@ -179,11 +179,14 @@
 .form_error-title{
     font-size: 18px;
     color: #ffffff;
+    list-style-type: none;
 }
 .main_catalog{
     background-color: white;
     display: grid;
-    gap: 100px;
+    gap: 50px;
+    border-radius: 20px;
+    padding: 50px;
     grid-template-columns: repeat(4, 1fr);
 }
 .card{
@@ -193,13 +196,23 @@
     display: grid;
     grid-template-rows: 3fr 1fr;
     background-color: white;
-    box-shadow: 0 5px 15px #737373;
+    box-shadow: 0 5px 10px 2px #474747;
     border: 1px solid black;
+    transition: .3s ease-in-out;
+    max-height: 500px;
+    overflow: auto;
+
+}
+.card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px #c3bbbb;;
 }
 .card_img{
     width: 100%;
     border-radius: 10px 10px 0 0;
     object-fit: cover;
+    height: 100%;
+    max-width: min-content;
 }
 .card_content{
     display: flex;
@@ -221,9 +234,15 @@
     justify-content: space-between;
 }
 .card_content-title{
+    max-width: 300px;
+    word-wrap: break-word;
     font-size: 1.5rem;
 }
-
+.card_content-text{
+    max-width: 300px;
+    word-wrap: break-word;
+    font-size: 1rem;
+}
 .card_content-name{
     color: rgba(71, 71, 71, 0.63);
 }
@@ -272,6 +291,8 @@
     transition: all 1s ease-in-out;
 }
 .card_del-text{
+    max-height: 50px;
+    overflow: hidden;
     font-size: 1.5rem;
 }
 .card_red-img{
@@ -284,4 +305,39 @@
     max-width: 15px;
     height: 15px;
     width: 15px;
+}
+.card--create{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card_img--create{
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+}
+.card-block{
+    border-radius: 33px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    padding: 50px;
+    background-color: black;
+}
+
+.catalog_stat{
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    transition: .3s ease-in-out;
+    cursor: pointer;
+}
+.catalog_stat:hover{
+    background-color: transparent;
+    transform: translateY(-2px);
+}
+.catalog_stat--active{
+    background-color: #8c8b8b;
 }

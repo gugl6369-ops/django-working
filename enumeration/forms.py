@@ -59,3 +59,7 @@ class RegistrationForm(UserCreationForm):
                 raise ValidationError(f'нельзя тут {data}, только латиница и дефис')
             return data
 
+class ApplicationUpdateStatus(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['status', 'comment']

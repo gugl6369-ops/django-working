@@ -26,6 +26,7 @@ class Application(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, help_text='Выберете категорию заявки')
     photo = models.ImageField(help_text='Прикрепите фотографию', upload_to='photos/')
     date = models.DateTimeField(auto_now_add=True)
+    comment = models.TextField(blank=True, null=True)
 
     LOAN_STATUS = (
         ('n', 'Новая'),

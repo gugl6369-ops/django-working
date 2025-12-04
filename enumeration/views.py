@@ -1,7 +1,11 @@
+from tabnanny import check
 from unicodedata import category
+from urllib import request
 
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm, ApplicationForm
+
+from service.asgi import application
+from .forms import RegistrationForm, ApplicationForm, ApplicationUpdateStatus
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from enumeration.models import Application
@@ -39,11 +43,55 @@ class MyApplicationList(LoginRequiredMixin, generic.ListView):
     model = Application # application_list.html
     template_name = 'enumeration/my_applications.html'
     context_object_name = 'my_application'
+    check = [False, False, False]
     #paginate_by = 10
     def get_queryset(self):
-        return (
-            Application.objects.filter(author=self.request.user).order_by('name')
-        )
+        if 'new' in self.request.GET and self.check[0] == False:
+            self.check[0] = True
+            self.check[1] = False
+            self.check[2] = False
+            return ({
+                    'check0': self.check[0],
+                    'check1': self.check[1],
+                    'check2': self.check[2],
+                    'application': Application.objects.filter(author=self.request.user, status='n').order_by('name')
+            })
+
+        if 'progress' in self.request.GET and self.check[1] == False:
+            self.check[1] = True
+            self.check[0] = False
+            self.check[2] = False
+            return ({
+                    'check0': self.check[0],
+                    'check1': self.check[1],
+                    'check2': self.check[2],
+                    'application': Application.objects.filter(author=self.request.user, status='a').order_by('name')
+            })
+
+        if 'done' in self.request.GET and self.check[2] == False:
+            self.check[2] = True
+            self.check[0] = False
+            self.check[1] = False
+
+            return ({
+                    'check0': self.check[0],
+                    'check1': self.check[1],
+                    'check2': self.check[2],
+                    'application' : Application.objects.filter(author=self.request.user, status='d').order_by('name')
+            })
+
+        else:
+            self.check[0] = False
+            self.check[1] = False
+            self.check[2] = False
+            return ({
+                'check0': self.check[0],
+                'check1': self.check[1],
+                'check2': self.check[2],
+                'application': Application.objects.filter(author=self.request.user).order_by('name')
+            })
+
+
 
 
 class ApplicationAdd(LoginRequiredMixin, generic.edit.CreateView):
@@ -78,4 +126,5 @@ class ApplicationDelete(LoginRequiredMixin, generic.edit.DeleteView):
 
 class ApplicationUpdateData(LoginRequiredMixin, generic.edit.UpdateView):
     model = Application
+    form_class = ApplicationUpdateStatus
 

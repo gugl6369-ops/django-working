@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('superadmin/', admin.site.urls),
     path('enumeration/', include('enumeration.urls')),
     path('', RedirectView.as_view(url='enumeration/', permanent=True)),
     path('accounts/', include('django.contrib.auth.urls')),

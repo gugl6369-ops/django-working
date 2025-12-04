@@ -1,10 +1,22 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-
+    {{ my_application.check }}
+    <form method="get">{% csrf_token %}
+            <button class="catalog_stat {% if my_application.check0 == True  %} catalog_stat--active {% endif %}"  name="new"> Новое </button>
+            <button class="catalog_stat {% if my_application.check1 == True  %} catalog_stat--active {% endif %}" name="progress"> Принято в работу</button>
+            <button class="catalog_stat {% if my_application.check2 == True  %} catalog_stat--active {% endif %}" name="done"> Выполнено </button>
+        </form>
     <div class="main_catalog">
-        {% if my_application  %}
-            {% for card in my_application  %}
+        {% if my_application.application  %}
+
+         <a href="{% url 'application_create' %}">
+            <div  class="card card--create">
+                {% load static %}
+               <img class="card_img--create" src="{% static 'img/card.png' %}"  />
+            </div>
+         </a>
+            {% for card in my_application.application  %}
             <article class="card">
                 <div class="card_header">
                     <img class="card_img" src="{{card.photo.url}}" alt=" фото {{ card.name }}" >
@@ -14,7 +26,7 @@
                     <div class="card_del" >
                         {% load static %}
                         <button class="card_del-btn">
-                            <img class="card_del-img" src="{% static 'img/clear.png' %}" />
+                            <a href="{% url 'application-delete' card.pk %}"> <img class="card_del-img" src="{% static 'img/clear.png' %}" /> </a>
                         </button>
                     </div>
                     <div class="card_red" >
@@ -31,12 +43,16 @@
                             <p class="card_content-title">{{card.name}}</p>
                             <p class="card_content-name">{{card.author}}</p>
                         </div>
-                        <p class="card_content-text">{{ card.description  }}</p>
+                        <p class="card_content-text">{{card.description}}</p>
+                        <p class="card_content-name"> {{card.date}} </p>
                     </div>
             </article>
             {% endfor %}
         {% else %}
-            <p>У {{ user. }} нет карточек!</p>
+            <p>У {{ user.get_username }} нет карточек!</p>
+            <div>
+                <a href="{% url 'application_create' %}"><p>Создать заявку</p></a>
+            </div>
         {% endif %}
     </div>
 {% endblock %}
