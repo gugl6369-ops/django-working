@@ -18,6 +18,9 @@
                 <div class="nav_content">
                     <p class="nav_name">{{ user.get_username }}</p>
                     <a href="{% url 'my_applications'%}"class="nav_text">Мои заявки</a>
+                    {% if perms.application.can_add_category %}
+                    <a href="{% url 'category_list'%}"class="nav_text">Категории</a>
+                    {% endif %}
                 </div>
                 <div class="nav_footer">
                     <form id="logout-form" method="post" action="{% url 'logout' %}">

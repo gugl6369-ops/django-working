@@ -28,7 +28,7 @@
                             <a href="{% url 'application-delete' card.pk %}"> <img class="card_del-img" src="{% static 'img/clear.png' %}" /></a>
                         </button>
                     </div>
-                    <div class="card_red" >
+                    <div class="card_red">
                         {% load static %}
                         <form method="post">{% csrf_token %}
                             <button class="card_red-btm" name="form">

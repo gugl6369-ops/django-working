@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Удаление категории</h1>
+<form method="post" class="form">
+    {% csrf_token %}
+        <h2> Вы готовы удалить категорию?  </h2>
+    <button class="del_btn" type="submit" value="Удалить">Удалить</button>
+</form>
+{% endblock %}

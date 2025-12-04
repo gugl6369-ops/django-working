@@ -5,24 +5,20 @@ from urllib import request
 from django.shortcuts import render, redirect
 
 from service.asgi import application
-from .forms import RegistrationForm, ApplicationForm, ApplicationUpdateStatus
+from .forms import RegistrationForm, ApplicationForm, ApplicationUpdateStatus, CategoryForm
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from enumeration.models import Application
+from enumeration.models import Application, Category
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 
 
 def index(request):
-    cards = Application.objects.filter(status__exact='d')
+    cards = Application.objects.filter(status__exact='d').order_by('date')[:4]
     context = {'cards': cards}
     return render(request, 'index.html', context=context)
 
-class ApplicationList(generic.ListView):
-    model = Application
-    template_name = 'application_list.html'
-    context_object_name = 'application_list'
-   # paginate_by = 10
+
 
 def consumer_login(request):
     if request.method == 'POST':
@@ -128,5 +124,24 @@ class ApplicationDelete(LoginRequiredMixin, generic.edit.DeleteView):
             )
 
 
+class CategoryList(LoginRequiredMixin, generic.ListView):
+    model = Category
+    template_name = 'enumeration/category_list.html'
+    context_object_name = 'category_list'
 
+class CategoryDelete(LoginRequiredMixin, generic.edit.DeleteView):
+    model = Category
+    success_url = reverse_lazy('category_list')
+    def form_valid(self, form):
+        try:
+            self.object.delete()
+            return HttpResponseRedirect(reverse('category_list'))
+        except Exception as e:
+            return HttpResponseRedirect(
+                reverse('category_list', kwargs={'pk': self.object.pk})
+            )
 
+class CategoryAdd(LoginRequiredMixin, generic.edit.CreateView):
+    model = Category
+    form_class = CategoryForm
+    success_url = reverse_lazy('category_list')

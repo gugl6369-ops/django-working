@@ -9,7 +9,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-from .models import Consumer, Application
+from .models import Consumer, Application, Category
+
 
 class ApplicationForm(forms.ModelForm):
     photo = forms.ImageField(label=_('Photo'), required=True)
@@ -78,3 +79,8 @@ class ApplicationUpdateStatus(forms.ModelForm):
     class Meta:
         model = Application
         fields = ['status', 'comment']
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']

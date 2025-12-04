@@ -1,0 +1,28 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h1> Категории </h1>
+    {% if category_list %}
+        <div class="category_list">
+        {% for category in category_list %}
+            <a href="{% url 'category-delete'  category.pk %}" class="category_link">
+                <div class="category">
+                    {% load static %}
+                    <p>{{category.name}}</p>
+                    <img class="category_del" src="{% static 'img/delete.png' %}" />
+                </div>
+            </a>
+        {% endfor %}
+              <a href="{% url 'category-create' %}">
+                <div class="category category--add">
+                    <img class="category_add-img" src="{% static 'img/add.png' %}" />
+                </div>
+              </a>
+        </div>
+    {% else %}
+        <div>
+            <p> Создайте первую категорию!</p>
+            <a href="{% url 'category-create' %}">Создать</a>
+        </div>
+    {% endif %}
+{% endblock %}
