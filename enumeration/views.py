@@ -1,9 +1,13 @@
-from django.shortcuts import render
-from .forms import RegistrationForm
+from unicodedata import category
+
+from django.shortcuts import render, redirect
+from .forms import RegistrationForm, ApplicationForm
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 from enumeration.models import Application
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+
 
 def index(request):
     cards = Application.objects.filter(status__exact='d')
@@ -31,13 +35,47 @@ def consumer_login(request):
 
 
 
-class MyApplicationList(generic.ListView):
+class MyApplicationList(LoginRequiredMixin, generic.ListView):
     model = Application # application_list.html
     template_name = 'enumeration/my_applications.html'
     context_object_name = 'my_application'
     #paginate_by = 10
-
     def get_queryset(self):
         return (
             Application.objects.filter(author=self.request.user).order_by('name')
         )
+
+
+class ApplicationAdd(LoginRequiredMixin, generic.edit.CreateView):
+    model = Application
+    form_class = ApplicationForm
+
+    def form_valid(self, form):
+        user = self.request.user
+        app = form.save(commit=False)
+        app.author = user
+        app.save()
+        return redirect('my_applications')
+
+class ApplicationDelete(LoginRequiredMixin, generic.edit.DeleteView):
+    model = Application
+    success_url = reverse_lazy('my_applications')
+
+    def form_valid(self, form):
+        try:
+            app = self.object
+            if not(app.status == 'd' or app.status == 'a'):
+                self.object.delete()
+                return HttpResponseRedirect(reverse('my_applications'))
+            else:
+                return HttpResponseRedirect(reverse('my_applications'))
+
+        except Exception as e:
+            return HttpResponseRedirect(
+                reverse('application-delete', kwargs={'pk': self.object.pk})
+            )
+
+
+class ApplicationUpdateData(LoginRequiredMixin, generic.edit.UpdateView):
+    model = Application
+
