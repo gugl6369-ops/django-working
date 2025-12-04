@@ -3,9 +3,9 @@
 {% block content %}
     {{ my_application.check }}
     <form method="get">{% csrf_token %}
-            <button class="catalog_stat {% if my_application.check0 == True  %} catalog_stat--active {% endif %}"  name="new"> Новое </button>
-            <button class="catalog_stat {% if my_application.check1 == True  %} catalog_stat--active {% endif %}" name="progress"> Принято в работу</button>
-            <button class="catalog_stat {% if my_application.check2 == True  %} catalog_stat--active {% endif %}" name="done"> Выполнено </button>
+            <button class="catalog_stat {% if my_application.check == 1  %} catalog_stat--active {% endif %}"  name="new"> Новое </button>
+            <button class="catalog_stat {% if my_application.check == 2  %} catalog_stat--active {% endif %}" name="progress"> Принято в работу</button>
+            <button class="catalog_stat {% if my_application.check == 3  %} catalog_stat--active {% endif %}" name="done"> Выполнено </button>
         </form>
     <div class="main_catalog">
         {% if my_application.application  %}
@@ -31,11 +31,13 @@
                     </div>
                     <div class="card_red" >
                         {% load static %}
-                        <button class="card_red-btm">
-                            {% load static %}
-                            <p class="card_red-text"> {{ card.get_status_display }} </p>
-                            <img class="card_red-img" src="{% static 'img/pen.png' %}">
-                        </button>
+                        <form method="post">{% csrf_token %}
+                            <button class="card_red-btm" name="form">
+                                {% load static %}
+                                <p class="card_red-text"> {{ card.get_status_display }} </p>
+                                <img class="card_red-img" src="{% static 'img/pen.png' %}">
+                            </button>
+                        </form>
                     </div>
                 </div>
                     <div class="card_content">
