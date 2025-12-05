@@ -5,7 +5,7 @@ from django.db import models
 
 
 class Consumer(AbstractUser):
-    first_name = models.CharField(help_text="Введите свое имя") #только кириллические буквы, дефис и пробелы;
+    first_name = models.CharField(help_text="Введите свое имя")
     last_name = models.CharField(help_text="Введите свою фамилию")
     patronymic = models.CharField(help_text="Введите свое отчество")
 

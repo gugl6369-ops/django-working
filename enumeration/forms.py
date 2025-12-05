@@ -1,10 +1,4 @@
 import re
-from cProfile import label
-from lib2to3.fixer_util import String
-from re import fullmatch
-
-from PIL import Image
-from django.core.validators import validate_email
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
@@ -39,7 +33,7 @@ class ApplicationForm(forms.ModelForm):
 class RegistrationForm(UserCreationForm):
         class Meta:
             model = Consumer
-            fields =['first_name', 'last_name', 'email', 'username']
+            fields =['first_name', 'last_name', 'patronymic', 'email', 'username']
             labels = {
                 'first_name': 'Имя',
                 'last_name': 'Фамилия',
@@ -47,22 +41,25 @@ class RegistrationForm(UserCreationForm):
                 'email': 'Почта',
                 'username': 'Логин',
             }
+
         def clean_first_name(self):
-            reg = re.compile(r'[A-яЁё\-\s]+')
+            reg = re.compile(r'[А-яЁё\-\s]+')
             data = self.cleaned_data['first_name']
             if not re.fullmatch(reg, data):
+                print('в нем', re.fullmatch(reg, data))
                 raise ValidationError(f'нельзя тут {data},  только кириллические буквы, дефис и пробелы')
+            print('после', re.fullmatch(reg, data))
             return data
 
         def clean_last_name(self):
-            reg = re.compile(r'[A-яЁё\-\s]+')
+            reg = re.compile(r'[А-яЁё\-\s]+')
             data = self.cleaned_data['last_name']
             if not re.fullmatch(reg, data):
                 raise ValidationError(f'нельзя тут {data},  только кириллические буквы, дефис и пробелы')
             return data
 
         def clean_patronymic(self):
-            reg = re.compile(r'[A-яЁё\-\s]+')
+            reg = re.compile(r'[А-яЁё\-\s]+')
             data = self.cleaned_data['patronymic']
             if not re.fullmatch(reg, data):
                 raise ValidationError(f'нельзя тут {data},  только кириллические буквы, дефис и пробелы')
