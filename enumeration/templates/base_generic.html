@@ -17,9 +17,12 @@
             {% if user.is_authenticated %}
                 <div class="nav_content">
                     <p class="nav_name">{{ user.get_username }}</p>
-                    <a href="{% url 'my_applications'%}"class="nav_text">Мои заявки</a>
-                    {% if perms.application.can_add_category %}
-                    <a href="{% url 'category_list'%}"class="nav_text">Категории</a>
+
+                    {% if user.is_staff %}
+                        <a href="{% url 'application_list'%}"class="nav_text">Все заявки</a>
+                        <a href="{% url 'category_list'%}"class="nav_text">Категории</a>
+                    {% else %}
+                        <a href="{% url 'my_applications'%}"class="nav_text">Мои заявки</a>
                     {% endif %}
                 </div>
                 <div class="nav_footer">

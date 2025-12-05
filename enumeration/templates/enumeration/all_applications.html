@@ -1,21 +1,13 @@
 {% extends "base_generic.html" %}
 
-{% block content %}
-    <form method="get">{% csrf_token %}
-            <button class="catalog_stat {% if my_application.check0 == 1  %} catalog_stat--active {% endif %}"  name="new"> Новое </button>
-            <button class="catalog_stat {% if my_application.check1 == 1  %} catalog_stat--active {% endif %}" name="progress"> Принято в работу</button>
-            <button class="catalog_stat {% if my_application.check2 == 1  %} catalog_stat--active {% endif %}" name="done"> Выполнено </button>
-        </form>
-    <div class="main_catalog">
-        {% if my_application.application  %}
 
-         <a href="{% url 'application_create' %}">
-            <div  class="card card--create">
-                {% load static %}
-               <img class="card_img--create" src="{% static 'img/card.png' %}"  />
-            </div>
-         </a>
-            {% for card in my_application.application  %}
+
+{% block content %}
+{% if user.is_staff %}
+    <h1>Все заявки</h1>
+  <div class="main_catalog">
+        {% if application_list  %}
+            {% for card in application_list  %}
             <article class="card">
                 <div class="card_header">
                     <img class="card_img" src="{{card.photo.url}}" alt=" фото {{ card.name }}" >
@@ -28,6 +20,18 @@
                             <a href="{% url 'application-delete' card.pk %}"> <img class="card_del-img" src="{% static 'img/clear.png' %}" /></a>
                         </button>
                     </div>
+                    <div class="card_red">
+                          {% load static %}
+
+                              <a class="card_red-btm"  href="{% if card.status == 'n' %} {% url 'status-update' card.pk %} {% endif %}"  >
+                                  {% load static %}
+                                  <p class="card_red-text"> {{ card.get_status_display }} </p>
+                                  {% if card.status == 'n' %}
+                                  <img class="card_red-img" src="{% static 'img/pen.png' %}">
+                                  {% endif %}
+                              </a>
+
+                      </div>
                 </div>
                     <div class="card_content">
                         <div class="card_content-header">
@@ -40,10 +44,16 @@
             </article>
             {% endfor %}
         {% else %}
-            <p>У {{ user.get_username }} нет карточек!</p>
-            <div>
-                <a href="{% url 'application_create' %}"><p>Создать заявку</p></a>
-            </div>
+            <p>Нет карточек!</p>
         {% endif %}
     </div>
+
+
+
+
+{% else%}
+    <h2>У вас нет прав</h2>
+{% endif %}
+
+
 {% endblock %}

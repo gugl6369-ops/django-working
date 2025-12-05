@@ -27,6 +27,7 @@ class Application(models.Model):
     photo = models.ImageField(help_text='Прикрепите фотографию', upload_to='photos/')
     date = models.DateTimeField(auto_now_add=True)
     comment = models.TextField(blank=True, null=True)
+    new_photo = models.ImageField(upload_to='photos/', blank=True, null=True)
 
     LOAN_STATUS = (
         ('n', 'Новая'),

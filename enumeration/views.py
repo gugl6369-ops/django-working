@@ -1,8 +1,7 @@
-from tabnanny import check
-from unicodedata import category
-from urllib import request
 
-from django.shortcuts import render, redirect
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 
 from service.asgi import application
 from .forms import RegistrationForm, ApplicationForm, ApplicationUpdateStatus, CategoryForm
@@ -145,3 +144,31 @@ class CategoryAdd(LoginRequiredMixin, generic.edit.CreateView):
     model = Category
     form_class = CategoryForm
     success_url = reverse_lazy('category_list')
+
+
+class StatusUpdate(LoginRequiredMixin, generic.edit.UpdateView):
+    model = Application
+    form_class = ApplicationUpdateStatus
+    context_object_name = 'form'
+    template_name = 'enumeration/status_form.html'
+    success_url = reverse_lazy('application_list')
+
+    def form_valid(self, form):
+        if form.cleaned_data['status'] == 'a':
+            self.object.status = 'a'
+            self.object.comment = form.cleaned_data['comment']
+            self.object.save()
+        elif form.cleaned_data['status'] == 'd':
+            self.object.status = 'd'
+            self.object.new_photo = form.cleaned_data['new_photo']
+            self.object.save()
+        return redirect('application_list')
+
+
+
+
+class AllApplicationList(LoginRequiredMixin, generic.ListView):
+    model = Application
+    template_name = 'enumeration/all_applications.html'
+    context_object_name = 'application_list'
+

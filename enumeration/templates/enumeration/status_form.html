@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1 class="account_title">Изменение статуса</h1>
+    <div class="account">
+         <form class="form"  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+             <div class="form_block">
+                    {% for input in form %}
+                    <label class="form_label">
+                       {{ input.label }}:
+                       {{ input }}
+
+                        <div class="form_error-block">
+                            <p class="form_error-title"> {{ input.errors }}</p>
+                        </div>
+
+                    </label>
+                    {% endfor %}
+                </div>
+             <button class="form_btn" type="submit">Отправить форму</button>
+        </form>
+    </div>
+{% endblock %}

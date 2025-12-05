@@ -1,7 +1,10 @@
 import re
+from dataclasses import fields
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
+from django.template.context_processors import request
 from django.utils.translation import gettext_lazy as _
 from .models import Consumer, Application, Category
 
@@ -81,3 +84,42 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['name']
+
+
+
+class ApplicationUpdateStatus(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['status', 'comment', 'new_photo']
+        labels = {
+            'status': 'Статус',
+            'comment': 'Комментарий',
+            'new_photo': 'Готовое фото',
+        }
+
+    def clean(self):
+        if self.instance.status == 'n':
+            if self.cleaned_data['status'] == 'd':
+                if self.cleaned_data['new_photo']:
+                    return self.cleaned_data
+                else:
+                    print('1')
+                    raise ValidationError('Прикрепите фотографию')
+            elif self.cleaned_data['status'] == 'a':
+                if self.cleaned_data['comment']:
+                    return self.cleaned_data
+                else:
+                    print('2')
+                    raise ValidationError('Напишите комментарий')
+            else:
+                print('3')
+                raise ValidationError('Прикрепите фотографию')
+        else:
+            print('4')
+            raise ValidationError('Прикрепите фотографию')
+
+
+
+
+
+
