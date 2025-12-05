@@ -187,11 +187,7 @@
     border-radius: 20px;
     background-color: #9a2b2b;
 }
-.form_error-title{
-    font-size: 18px;
-    color: #ffffff;
-    list-style-type: none;
-}
+
 .main_catalog{
     background-color: white;
     display: grid;
@@ -417,4 +413,13 @@
 .card_red-btm{
     text-decoration: none;
     color: #191919;
+}
+.form_error-title{
+    font-size: 18px;
+    color: #ffffff;
+    list-style-type: none;
+}
+.errorlist{
+    color: white;
+    list-style-type: none;
 }

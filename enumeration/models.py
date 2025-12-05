@@ -36,8 +36,6 @@ class Application(models.Model):
     )
     status = models.CharField(choices=LOAN_STATUS, default='n',)
 
-    class Meta:
-        ordering = ['status']
 
     def __str__(self):
         return self.name

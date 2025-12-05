@@ -1,3 +1,4 @@
+from lib2to3.fixes.fix_input import context
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
@@ -14,7 +15,11 @@ from django.urls import reverse, reverse_lazy
 
 def index(request):
     cards = Application.objects.filter(status__exact='d').order_by('date')[:4]
-    context = {'cards': cards}
+    counter = Application.objects.filter(status = 'a').count()
+    context = {
+        'cards': cards,
+        'counter': counter
+    }
     return render(request, 'index.html', context=context)
 
 
@@ -154,15 +159,20 @@ class StatusUpdate(LoginRequiredMixin, generic.edit.UpdateView):
     success_url = reverse_lazy('application_list')
 
     def form_valid(self, form):
-        if form.cleaned_data['status'] == 'a':
-            self.object.status = 'a'
-            self.object.comment = form.cleaned_data['comment']
-            self.object.save()
-        elif form.cleaned_data['status'] == 'd':
-            self.object.status = 'd'
-            self.object.new_photo = form.cleaned_data['new_photo']
-            self.object.save()
-        return redirect('application_list')
+        application = self.object
+        status = form.cleaned_data['status']
+
+        if status == 'a':
+            application.status = 'a'
+            application.comment = form.cleaned_data.get('comment', '')
+            application.save()
+
+        elif status == 'd':
+            application.status = 'd'
+            application.new_photo = form.cleaned_data.get('new_photo')
+            application.save()
+
+        return redirect(self.success_url)
 
 
 

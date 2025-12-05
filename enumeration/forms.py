@@ -98,25 +98,32 @@ class ApplicationUpdateStatus(forms.ModelForm):
         }
 
     def clean(self):
-        if self.instance.status == 'n':
-            if self.cleaned_data['status'] == 'd':
-                if self.cleaned_data['new_photo']:
-                    return self.cleaned_data
-                else:
-                    print('1')
-                    raise ValidationError('Прикрепите фотографию')
-            elif self.cleaned_data['status'] == 'a':
-                if self.cleaned_data['comment']:
-                    return self.cleaned_data
-                else:
-                    print('2')
-                    raise ValidationError('Напишите комментарий')
-            else:
-                print('3')
-                raise ValidationError('Прикрепите фотографию')
+        status = self.cleaned_data.get('status')
+        comment = self.cleaned_data.get('comment')
+        new_photo = self.cleaned_data.get('new_photo')
+
+        if self.instance.status != 'n':
+            raise ValidationError('Эта заявка уже обработана и не может быть изменена.')
+
+        if status == 'a':
+            if not comment or not comment.strip():
+                raise ValidationError({
+                    'comment': 'При принятии заявки необходимо указать комментарий.'
+                })
+
+        elif status == 'd':
+            if not new_photo:
+                raise ValidationError({
+                    'new_photo': 'При отклонении заявки необходимо прикрепить готовое фото.'
+                })
+
         else:
-            print('4')
-            raise ValidationError('Прикрепите фотографию')
+            raise ValidationError({
+                'status': 'Выберите корректный статус заявки.'
+            })
+
+        return self.cleaned_data
+
 
 
 

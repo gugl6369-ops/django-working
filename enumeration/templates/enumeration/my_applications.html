@@ -28,6 +28,13 @@
                             <a href="{% url 'application-delete' card.pk %}"> <img class="card_del-img" src="{% static 'img/clear.png' %}" /></a>
                         </button>
                     </div>
+                      <div class="card_red">
+                          {% load static %}
+                          <div class="card_red-btm"  >
+                              {% load static %}
+                              <p class="card_red-text"> {{ card.get_status_display }} </p>
+                          </div>
+                      </div>
                 </div>
                     <div class="card_content">
                         <div class="card_content-header">

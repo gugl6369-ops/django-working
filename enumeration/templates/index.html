@@ -2,6 +2,7 @@
 
 {% block content %}
     <h1>Главная страница</h1>
+    <h2>Задач в процессе: {{ counter }}</h2>
     <div class="main_catalog">
     {% if cards  %}
             {% for card in cards  %}
