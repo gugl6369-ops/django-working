@@ -49,9 +49,7 @@ class RegistrationForm(UserCreationForm):
             reg = re.compile(r'[А-яЁё\-\s]+')
             data = self.cleaned_data['first_name']
             if not re.fullmatch(reg, data):
-                print('в нем', re.fullmatch(reg, data))
                 raise ValidationError(f'нельзя тут {data},  только кириллические буквы, дефис и пробелы')
-            print('после', re.fullmatch(reg, data))
             return data
 
         def clean_last_name(self):
